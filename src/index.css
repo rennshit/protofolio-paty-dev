@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Design tokens — tune these to match the exact brand colors of the
+     Respaty Dev logo. Values are R G B triplets (no commas) so Tailwind
+     can apply alpha via bg-primary/40 etc. */
+  --background: 8 9 12;      /* near-black, slightly warm */
+  --foreground: 237 238 241; /* off-white */
+  --primary: 99 102 241;     /* indigo-500 — swap to match logo */
+  --secondary: 56 189 248;   /* sky-400 accent */
+  --muted: 148 152 163;      /* muted gray text */
+  --card: 18 19 24;          /* card surface base */
+  --border: 255 255 255;     /* used at low alpha for hairlines */
+  --glow: 99 102 241;        /* glow tint, usually == primary */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  @apply bg-background text-foreground font-body antialiased;
+  font-feature-settings: "ss01" 1;
+}
+
+::selection {
+  background-color: rgb(var(--primary) / 0.35);
+  color: rgb(var(--foreground));
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--secondary));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Subtle grid background, used behind hero / section decoration */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(var(--border) / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--border) / 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Extremely faint noise texture, applied as an overlay */
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.glass {
+  background: rgb(var(--card) / 0.5);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgb(var(--border) / 0.08);
+}
+
+.glass-strong {
+  background: rgb(var(--card) / 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(var(--border) / 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(115deg, rgb(var(--foreground)) 20%, rgb(var(--secondary)) 65%, rgb(var(--primary)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-ring {
+  box-shadow: 0 0 0 1px rgb(var(--border) / 0.08), 0 0 60px -10px rgb(var(--glow) / 0.35);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgb(var(--border) / 0.15);
+  border-radius: 999px;
+}
